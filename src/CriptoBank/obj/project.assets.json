@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/it/RiderProjects/CriptoBank/CriptoBank/CriptoBank.csproj",
+      "projectUniqueName": "/home/it/RiderProjects/CriptoBank/src/CriptoBank/CriptoBank.csproj",
       "projectName": "CriptoBank",
-      "projectPath": "/home/it/RiderProjects/CriptoBank/CriptoBank/CriptoBank.csproj",
+      "projectPath": "/home/it/RiderProjects/CriptoBank/src/CriptoBank/CriptoBank.csproj",
       "packagesPath": "/home/it/.nuget/packages/",
-      "outputPath": "/home/it/RiderProjects/CriptoBank/CriptoBank/obj/",
+      "outputPath": "/home/it/RiderProjects/CriptoBank/src/CriptoBank/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/it/.nuget/NuGet/NuGet.Config"

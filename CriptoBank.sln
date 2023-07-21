@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoBank", "CriptoBank\CriptoBank.csproj", "{CE8E6DAC-D610-4188-87B2-FE30CF79519C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoBank", "src\CriptoBank\CriptoBank.csproj", "{CE8E6DAC-D610-4188-87B2-FE30CF79519C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{709F9496-E641-4591-B017-835202A20C95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBank.WebAPI", "CryptoBank.WebAPI\CryptoBank.WebAPI.csproj", "{E933233D-B2DB-4C6E-BE5E-3662094EA3CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBank.WebAPI", "src\CryptoBank.WebAPI\CryptoBank.WebAPI.csproj", "{E933233D-B2DB-4C6E-BE5E-3662094EA3CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,5 +23,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E933233D-B2DB-4C6E-BE5E-3662094EA3CA} = {709F9496-E641-4591-B017-835202A20C95}
+		{CE8E6DAC-D610-4188-87B2-FE30CF79519C} = {709F9496-E641-4591-B017-835202A20C95}
 	EndGlobalSection
 EndGlobal

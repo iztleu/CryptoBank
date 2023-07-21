@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "M9DtQY1ufzVutDpV5/8TTUjmwGiWQ+xz015T/OjW0kPEIXfuYK+gwo4XEL6QsU41cYB7aBuvvGgy6gE7MU0dMQ==",
+  "dgSpecHash": "TxCroihzqJjslyVCVvu6+ghcfssfJcr1W6pZA5O3iX0Umhzu/gQjkhnfrSdieIWCbRiMegyqDbVAftzK7pPQbQ==",
   "success": true,
-  "projectFilePath": "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
+  "projectFilePath": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
   "expectedPackageFiles": [
     "/home/it/.nuget/packages/fluentvalidation/11.6.0/fluentvalidation.11.6.0.nupkg.sha512",
     "/home/it/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.6.0/fluentvalidation.dependencyinjectionextensions.11.6.0.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj": {}
+    "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj": {}
   },
   "projects": {
-    "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj": {
+    "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
+        "projectUniqueName": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
         "projectName": "CryptoBank.WebAPI",
-        "projectPath": "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
+        "projectPath": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
         "packagesPath": "/home/it/.nuget/packages/",
-        "outputPath": "/home/it/RiderProjects/CriptoBank/CryptoBank.WebAPI/obj/",
+        "outputPath": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/it/.nuget/NuGet/NuGet.Config"
