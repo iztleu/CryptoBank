@@ -8,15 +8,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBank.WebAPI", "src\Cr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{6CC6518D-6AB0-4A5D-B1BB-142DE22390BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoHosting", "src\NoHosting\NoHosting.csproj", "{D47271EC-EA17-4A2B-AE5A-667E07D114F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoHosting", "src\Hosting\NoHosting\NoHosting.csproj", "{D47271EC-EA17-4A2B-AE5A-667E07D114F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Domain", "src\Hosting.Domain\Hosting.Domain.csproj", "{ED712556-4556-4F4B-B882-CC7C0783B791}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Domain", "src\Hosting\Hosting.Domain\Hosting.Domain.csproj", "{ED712556-4556-4F4B-B882-CC7C0783B791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Services", "src\Hosting.Services\Hosting.Services.csproj", "{394B5FA8-BE69-4665-A6F2-FC36C0A4A936}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Services", "src\Hosting\Hosting.Services\Hosting.Services.csproj", "{394B5FA8-BE69-4665-A6F2-FC36C0A4A936}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Services.DI", "src\Hosting.Services.DI\Hosting.Services.DI.csproj", "{808D3201-9CC5-4B6D-848E-54FD07023503}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting.Services.DI", "src\Hosting\Hosting.Services.DI\Hosting.Services.DI.csproj", "{808D3201-9CC5-4B6D-848E-54FD07023503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoHosting.DI", "src\NoHosting.DI\NoHosting.DI.csproj", "{66C645E2-EFAB-4676-8515-D97AAAD4EFD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoHosting.DI", "src\Hosting\NoHosting.DI\NoHosting.DI.csproj", "{66C645E2-EFAB-4676-8515-D97AAAD4EFD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
