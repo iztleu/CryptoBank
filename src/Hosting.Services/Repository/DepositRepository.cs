@@ -1,6 +1,6 @@
 using Hosting.Domain;
 
-namespace Hosting.Services;
+namespace Hosting.Services.Repository;
 
 public class DepositRepository
 {

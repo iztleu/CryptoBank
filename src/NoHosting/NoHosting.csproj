@@ -14,4 +14,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Hosting.Domain\Hosting.Domain.csproj" />
+      <ProjectReference Include="..\Hosting.Services\Hosting.Services.csproj" />
+    </ItemGroup>
+
 </Project>
