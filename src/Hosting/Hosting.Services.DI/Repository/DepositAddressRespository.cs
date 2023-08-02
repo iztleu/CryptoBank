@@ -1,27 +1,31 @@
 using Hosting.Domain;
+using Microsoft.Extensions.Logging;
 
-namespace Hosting.Services.Repository;
-
-public interface IDepositAddressRespository
+namespace Hosting.Services.DI.Repository
 {
-    Task<IEnumerable<DepositAddress>> LoadDepositAddresses(CancellationToken cancellationToken);
-}
-
-public class DepositAddressRespository : IDepositAddressRespository
-{
-    private readonly  DbContext _dbContext;
-    
-    public DepositAddressRespository(DbContext dbContext)
+    public interface IDepositAddressRespository
     {
-        _dbContext = dbContext;
+        Task<IEnumerable<DepositAddress>> LoadDepositAddresses(CancellationToken cancellationToken);
     }
-    
-    public Task<IEnumerable<DepositAddress>> LoadDepositAddresses(CancellationToken cancellationToken)
+
+    public class DepositAddressRespository : IDepositAddressRespository
     {
-        IEnumerable<DepositAddress> addresses = new[] { new DepositAddress(), new DepositAddress() };
+        private readonly  DbContext _dbContext;
+        private readonly ILogger<DepositAddressRespository> _logger;
+    
+        public DepositAddressRespository(DbContext dbContext, ILogger<DepositAddressRespository> logger)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
+        }
+    
+        public Task<IEnumerable<DepositAddress>> LoadDepositAddresses(CancellationToken cancellationToken)
+        {
+            IEnumerable<DepositAddress> addresses = new[] { new DepositAddress(), new DepositAddress() };
 
-        Console.WriteLine("Deposit addresses loaded");
+            _logger.LogInformation("Deposit addresses loaded");
 
-        return Task.FromResult(addresses);
+            return Task.FromResult(addresses);
+        }
     }
 }

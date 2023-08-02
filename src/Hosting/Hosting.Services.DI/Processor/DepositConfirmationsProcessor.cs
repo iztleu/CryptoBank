@@ -1,44 +1,48 @@
-using Hosting.Domain;
-using Hosting.Services.Bitcoin;
-using Hosting.Services.Repository;
+using Hosting.Services.DI.Bitcoin;
+using Hosting.Services.DI.Repository;
+using Microsoft.Extensions.Logging;
 
-namespace Hosting.Services.Processor;
-
-public interface IDepositConfirmationsProcessor
+namespace Hosting.Services.DI.Processor
 {
-    Task Process(CancellationToken cancellationToken);
-}
-
-public class DepositConfirmationsProcessor : IDepositConfirmationsProcessor
-{
-    private readonly IDepositRepository _depositRepository;
-    private readonly IBitcoinBlockchainScanner _bitcoinBlockchainScanner;
-    private readonly IAccountRepository _accountRepository;
-
-    public DepositConfirmationsProcessor(
-        IAccountRepository accountRepository, 
-        IBitcoinBlockchainScanner bitcoinBlockchainScanner, 
-        IDepositRepository depositRepository)
+    public interface IDepositConfirmationsProcessor
     {
-        _accountRepository = accountRepository;
-        _bitcoinBlockchainScanner = bitcoinBlockchainScanner;
-        _depositRepository = depositRepository;
+        Task Process(CancellationToken cancellationToken);
     }
 
-    public async Task Process(CancellationToken cancellationToken)
+    public class DepositConfirmationsProcessor : IDepositConfirmationsProcessor
     {
-        Console.WriteLine("Deposit confirmations processing started");
+        private readonly IDepositRepository _depositRepository;
+        private readonly IBitcoinBlockchainScanner _bitcoinBlockchainScanner;
+        private readonly IAccountRepository _accountRepository;
+        private readonly ILogger<DepositConfirmationsProcessor> _logger;
 
-        var unconfirmedDeposits = await _depositRepository.LoadUnconfirmedDeposits(cancellationToken);
+        public DepositConfirmationsProcessor(
+            IAccountRepository accountRepository, 
+            IBitcoinBlockchainScanner bitcoinBlockchainScanner, 
+            IDepositRepository depositRepository, 
+            ILogger<DepositConfirmationsProcessor> logger)
+        {
+            _accountRepository = accountRepository;
+            _bitcoinBlockchainScanner = bitcoinBlockchainScanner;
+            _depositRepository = depositRepository;
+            _logger = logger;
+        }
 
-        await _bitcoinBlockchainScanner.UpdateDepositConfirmations(unconfirmedDeposits, cancellationToken);
+        public async Task Process(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Deposit confirmations processing started");
 
-        await _depositRepository.UpdateDepositConfirmations(unconfirmedDeposits, cancellationToken);
+            var unconfirmedDeposits = await _depositRepository.LoadUnconfirmedDeposits(cancellationToken);
 
-        var confirmedDeposits = unconfirmedDeposits.Where(d => d.IsConfirmed);
+            await _bitcoinBlockchainScanner.UpdateDepositConfirmations(unconfirmedDeposits, cancellationToken);
 
-        await _accountRepository.DepositToAccounts(confirmedDeposits, cancellationToken);
+            await _depositRepository.UpdateDepositConfirmations(unconfirmedDeposits, cancellationToken);
 
-        Console.WriteLine("Deposit confirmations processing finished");
+            var confirmedDeposits = unconfirmedDeposits.Where(d => d.IsConfirmed);
+
+            await _accountRepository.DepositToAccounts(confirmedDeposits, cancellationToken);
+
+            _logger.LogInformation("Deposits confirmed");
+        }
     }
 }

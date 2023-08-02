@@ -1,40 +1,44 @@
-using Hosting.Domain;
-using Hosting.Services.Bitcoin;
-using Hosting.Services.Repository;
+using Hosting.Services.DI.Bitcoin;
+using Hosting.Services.DI.Repository;
+using Microsoft.Extensions.Logging;
 
-namespace Hosting.Services.Processor;
-
-public interface INewDepositProcessor
+namespace Hosting.Services.DI.Processor
 {
-    Task Process(CancellationToken cancellationToken);
-}
-
-public class NewDepositProcessor : INewDepositProcessor
-{
-    private readonly IBitcoinBlockchainScanner _bitcoinBlockchainScanner;
-    private readonly IDepositRepository _depositRepository;
-    private readonly IDepositAddressRespository _depositAddressRepository;
-
-    public NewDepositProcessor(
-        IBitcoinBlockchainScanner bitcoinBlockchainScanner, 
-        IDepositRepository depositRepository, 
-        IDepositAddressRespository depositAddressRepository)
+    public interface INewDepositProcessor
     {
-        _bitcoinBlockchainScanner = bitcoinBlockchainScanner;
-        _depositRepository = depositRepository;
-        _depositAddressRepository = depositAddressRepository;
+        Task Process(CancellationToken cancellationToken);
     }
-    
-    public async Task Process(CancellationToken cancellationToken)
+
+    public class NewDepositProcessor : INewDepositProcessor
     {
-        Console.WriteLine("New deposit processing started");
+        private readonly IBitcoinBlockchainScanner _bitcoinBlockchainScanner;
+        private readonly IDepositRepository _depositRepository;
+        private readonly IDepositAddressRespository _depositAddressRepository;
+        private readonly ILogger<NewDepositProcessor> _logger;
 
-        var depositAddresses = await _depositAddressRepository.LoadDepositAddresses(cancellationToken);
+        public NewDepositProcessor(
+            IBitcoinBlockchainScanner bitcoinBlockchainScanner, 
+            IDepositRepository depositRepository, 
+            IDepositAddressRespository depositAddressRepository, 
+            ILogger<NewDepositProcessor> logger)
+        {
+            _bitcoinBlockchainScanner = bitcoinBlockchainScanner;
+            _depositRepository = depositRepository;
+            _depositAddressRepository = depositAddressRepository;
+            _logger = logger;
+        }
+    
+        public async Task Process(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("New deposit processing started");
 
-        var deposits = await _bitcoinBlockchainScanner.FindNewDeposits(depositAddresses, cancellationToken);
+            var depositAddresses = await _depositAddressRepository.LoadDepositAddresses(cancellationToken);
 
-        await _depositRepository.SaveDeposits(deposits, cancellationToken);
+            var deposits = await _bitcoinBlockchainScanner.FindNewDeposits(depositAddresses, cancellationToken);
 
-        Console.WriteLine("New deposit processing finished");
+            await _depositRepository.SaveDeposits(deposits, cancellationToken);
+
+            _logger.LogInformation("New deposit processing finished");
+        }
     }
 }

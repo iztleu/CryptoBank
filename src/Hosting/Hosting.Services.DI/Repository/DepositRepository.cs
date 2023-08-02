@@ -1,43 +1,46 @@
 using Hosting.Domain;
+using Microsoft.Extensions.Logging;
 
-namespace Hosting.Services.Repository;
-
-public interface IDepositRepository
+namespace Hosting.Services.DI.Repository
 {
-    Task SaveDeposits(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
-    Task<IEnumerable<Deposit>> LoadUnconfirmedDeposits(CancellationToken cancellationToken);
-    Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
-}
-
-public class DepositRepository : IDepositRepository
-{
-    private readonly DbContext _dbContext;
-    
-    public DepositRepository(DbContext dbContext)
+    public interface IDepositRepository
     {
-        _dbContext = dbContext;
+        Task SaveDeposits(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
+        Task<IEnumerable<Deposit>> LoadUnconfirmedDeposits(CancellationToken cancellationToken);
+        Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
     }
-    
-    public Task SaveDeposits(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
+
+    public class DepositRepository : IDepositRepository
     {
-        Console.WriteLine("Deposits saved");
-
-        return Task.CompletedTask;
-    }
+        private readonly DbContext _dbContext;
+        private readonly ILogger<DepositRepository> _logger;
+        public DepositRepository(DbContext dbContext, ILogger<DepositRepository> logger)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
+        }
     
-    public Task<IEnumerable<Deposit>> LoadUnconfirmedDeposits(CancellationToken cancellationToken)
-    {
-        IEnumerable<Deposit> deposits = new[] { new Deposit(), new Deposit() };
-
-        Console.WriteLine("Unconfirmed deposits loaded");
-
-        return Task.FromResult(deposits);
-    }
+        public Task SaveDeposits(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Deposits saved");
+            
+            return Task.CompletedTask;
+        }
     
-    public Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
-    {
-        Console.WriteLine("Deposit confirmations updated in database");
+        public Task<IEnumerable<Deposit>> LoadUnconfirmedDeposits(CancellationToken cancellationToken)
+        {
+            IEnumerable<Deposit> deposits = new[] { new Deposit(), new Deposit() };
 
-        return Task.CompletedTask;
+            _logger.LogInformation("Unconfirmed deposits loaded");
+           
+            return Task.FromResult(deposits);
+        }
+    
+        public Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Deposit confirmations updated in database");
+
+            return Task.CompletedTask;
+        }
     }
 }

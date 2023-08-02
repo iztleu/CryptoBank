@@ -1,11 +1,21 @@
-namespace Hosting.Services.Bitcoin;
+using Hosting.Services.DI.Options;
+using Microsoft.Extensions.Options;
 
-public interface IBitcoinNodeClient
+namespace Hosting.Services.DI.Bitcoin
 {
-}
+    public interface IBitcoinNodeClient
+    {
+    }
 
-public class BitcoinNodeClient : IBitcoinNodeClient
-{
-    private readonly string _rpcUrl = "http://localhost:8332";
-    private readonly TimeSpan _rpcTimeout = TimeSpan.FromMinutes(1);
+    public class BitcoinNodeClient : IBitcoinNodeClient
+    {
+        private readonly string _rpcUrl;
+        private readonly TimeSpan _rpcTimeout;
+
+        public BitcoinNodeClient(IOptions<BitcoinNodeClientOptions> options)
+        {
+            _rpcUrl = options.Value.RpcUrl;
+            _rpcTimeout = options.Value.RpcTimeout;
+        }
+    }
 }

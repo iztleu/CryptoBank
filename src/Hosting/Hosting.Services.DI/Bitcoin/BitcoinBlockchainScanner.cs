@@ -1,36 +1,40 @@
 using Hosting.Domain;
+using Microsoft.Extensions.Logging;
 
-namespace Hosting.Services.Bitcoin;
-
-public interface IBitcoinBlockchainScanner
+namespace Hosting.Services.DI.Bitcoin
 {
-    Task<IEnumerable<Deposit>> FindNewDeposits(IEnumerable<DepositAddress> addresses, CancellationToken cancellationToken);
-    Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
-}
-
-public class BitcoinBlockchainScanner : IBitcoinBlockchainScanner
-{
-    private readonly IBitcoinNodeClient _bitcoinNodeClient;
-    private readonly int _minConfirmations = 3;
-    
-    public BitcoinBlockchainScanner(IBitcoinNodeClient bitcoinNodeClient)
+    public interface IBitcoinBlockchainScanner
     {
-        _bitcoinNodeClient = bitcoinNodeClient;
+        Task<IEnumerable<Deposit>> FindNewDeposits(IEnumerable<DepositAddress> addresses, CancellationToken cancellationToken);
+        Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken);
     }
-    
-    public Task<IEnumerable<Deposit>> FindNewDeposits(IEnumerable<DepositAddress> addresses, CancellationToken cancellationToken)
+
+    public class BitcoinBlockchainScanner : IBitcoinBlockchainScanner
     {
-        IEnumerable<Deposit> deposits = new[] { new Deposit(), new Deposit() };
-
-        Console.WriteLine("New deposits found");
-
-        return Task.FromResult(deposits);
-    }
+        private readonly IBitcoinNodeClient _bitcoinNodeClient;
+        private readonly int _minConfirmations = 3;
+        private readonly ILogger<BitcoinBlockchainScanner> _logger;
     
-    public Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
-    {
-        Console.WriteLine("Deposit confirmations updated");
+        public BitcoinBlockchainScanner(IBitcoinNodeClient bitcoinNodeClient, ILogger<BitcoinBlockchainScanner> logger)
+        {
+            _bitcoinNodeClient = bitcoinNodeClient;
+            _logger = logger;
+        }
+    
+        public Task<IEnumerable<Deposit>> FindNewDeposits(IEnumerable<DepositAddress> addresses, CancellationToken cancellationToken)
+        {
+            IEnumerable<Deposit> deposits = new[] { new Deposit(), new Deposit() };
 
-        return Task.CompletedTask;
+            _logger.LogInformation("New deposits found");
+
+            return Task.FromResult(deposits);
+        }
+    
+        public Task UpdateDepositConfirmations(IEnumerable<Deposit> deposits, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Deposit confirmations updated");
+
+            return Task.CompletedTask;
+        }
     }
 }
