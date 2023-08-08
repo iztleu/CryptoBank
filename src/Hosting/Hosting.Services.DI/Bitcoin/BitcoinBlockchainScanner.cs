@@ -1,5 +1,7 @@
 using Hosting.Domain;
+using Hosting.Services.DI.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Hosting.Services.DI.Bitcoin
 {
@@ -12,13 +14,17 @@ namespace Hosting.Services.DI.Bitcoin
     public class BitcoinBlockchainScanner : IBitcoinBlockchainScanner
     {
         private readonly IBitcoinNodeClient _bitcoinNodeClient;
-        private readonly int _minConfirmations = 3;
+        private readonly int _minConfirmations;
         private readonly ILogger<BitcoinBlockchainScanner> _logger;
     
-        public BitcoinBlockchainScanner(IBitcoinNodeClient bitcoinNodeClient, ILogger<BitcoinBlockchainScanner> logger)
+        public BitcoinBlockchainScanner(
+            IBitcoinNodeClient bitcoinNodeClient,
+            IOptions<DepositConfirmationsProcessingOptions> options,
+            ILogger<BitcoinBlockchainScanner> logger)
         {
             _bitcoinNodeClient = bitcoinNodeClient;
             _logger = logger;
+            _minConfirmations = options.Value.MinConfirmations;
         }
     
         public Task<IEnumerable<Deposit>> FindNewDeposits(IEnumerable<DepositAddress> addresses, CancellationToken cancellationToken)
