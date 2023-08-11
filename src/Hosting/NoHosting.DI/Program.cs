@@ -22,7 +22,7 @@ services.AddScoped<DbContext>();
 services.AddTransient<INewDepositProcessor, NewDepositProcessor>();
 services.AddTransient<IDepositConfirmationsProcessor, DepositConfirmationsProcessor>();
 
-services.AddTransient<IDepositAddressRespository, DepositAddressRespository>();
+services.AddTransient<IDepositAddressRepository, DepositAddressRepository>();
 services.AddTransient<IDepositRepository, DepositRepository>();
 services.AddTransient<IAccountRepository, AccountRepository>();
 

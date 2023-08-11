@@ -13,13 +13,13 @@ namespace Hosting.Services.DI.Processor
     {
         private readonly IBitcoinBlockchainScanner _bitcoinBlockchainScanner;
         private readonly IDepositRepository _depositRepository;
-        private readonly IDepositAddressRespository _depositAddressRepository;
+        private readonly IDepositAddressRepository _depositAddressRepository;
         private readonly ILogger<NewDepositProcessor> _logger;
 
         public NewDepositProcessor(
             IBitcoinBlockchainScanner bitcoinBlockchainScanner, 
             IDepositRepository depositRepository, 
-            IDepositAddressRespository depositAddressRepository, 
+            IDepositAddressRepository depositAddressRepository, 
             ILogger<NewDepositProcessor> logger)
         {
             _bitcoinBlockchainScanner = bitcoinBlockchainScanner;
