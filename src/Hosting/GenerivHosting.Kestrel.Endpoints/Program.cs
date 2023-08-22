@@ -2,6 +2,7 @@ using GenerivHosting.Kestrel.Endpoints.Controllers.Extensions;
 using GenerivHosting.Kestrel.Endpoints.HostedService;
 using GenerivHosting.Kestrel.Endpoints.Middlewares;
 using GenerivHosting.Kestrel.Endpoints.Pipeline;
+using Hosting.Domain;
 using Hosting.Services.DI.Repository;
 
 var host = Host.CreateDefaultBuilder()
@@ -9,6 +10,7 @@ var host = Host.CreateDefaultBuilder()
         {
             services.AddHostedService<KestrelHostedServicePipeline>();
             services.AddTransient<IDepositRepository, DepositRepository>();
+            services.AddTransient<DbContext>();
         }
     ).AddPipeline(builder => builder
         .Use<LoggingMiddleware>()

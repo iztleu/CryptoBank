@@ -20,6 +20,7 @@ public class PipelineBuilder : IPipelineBuilder
     public PipelineBuilder(IServiceCollection services)
     {
         _services = services;
+        _services.AddSingleton(_endpointCollection);
     }
     
     public IPipelineBuilder Use<TMiddleware>() where TMiddleware : class, IPipelineMiddleware
