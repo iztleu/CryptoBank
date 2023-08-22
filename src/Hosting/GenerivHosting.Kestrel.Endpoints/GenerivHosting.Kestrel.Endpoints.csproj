@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+
+
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Hosting.Services.DI\Hosting.Services.DI.csproj" />
+      <ProjectReference Include="..\NoHosting.DI\NoHosting.DI.csproj" />
+    </ItemGroup>
+
+
+
+
+
+
+
+</Project>

@@ -109,6 +109,7 @@
       <Reference Include="Microsoft.AspNetCore.StaticFiles" />
       <Reference Include="Microsoft.AspNetCore.WebSockets" />
       <Reference Include="Microsoft.AspNetCore.WebUtilities" />
+      <Reference Include="Microsoft.CSharp" />
       <Reference Include="Microsoft.Extensions.Caching.Abstractions" />
       <Reference Include="Microsoft.Extensions.Caching.Memory" />
       <Reference Include="Microsoft.Extensions.Configuration" />

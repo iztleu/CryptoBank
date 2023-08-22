@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericHosting", "src\Hosti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericHosting.Kestrel", "src\Hosting\GenericHosting.Kestrel\GenericHosting.Kestrel.csproj", "{8358E95F-1CC8-484A-81D5-442E5942F2A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerivHosting.Kestrel.Endpoints", "src\Hosting\GenerivHosting.Kestrel.Endpoints\GenerivHosting.Kestrel.Endpoints.csproj", "{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{8358E95F-1CC8-484A-81D5-442E5942F2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8358E95F-1CC8-484A-81D5-442E5942F2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8358E95F-1CC8-484A-81D5-442E5942F2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E933233D-B2DB-4C6E-BE5E-3662094EA3CA} = {709F9496-E641-4591-B017-835202A20C95}
@@ -76,5 +82,6 @@ Global
 		{66C645E2-EFAB-4676-8515-D97AAAD4EFD5} = {6CC6518D-6AB0-4A5D-B1BB-142DE22390BB}
 		{B86EC270-D011-4F1F-94ED-7C2ED5AEE6EF} = {6CC6518D-6AB0-4A5D-B1BB-142DE22390BB}
 		{8358E95F-1CC8-484A-81D5-442E5942F2A2} = {6CC6518D-6AB0-4A5D-B1BB-142DE22390BB}
+		{3E6BDEB0-A4C3-40C7-A3C5-E1341FEAD395} = {6CC6518D-6AB0-4A5D-B1BB-142DE22390BB}
 	EndGlobalSection
 EndGlobal
