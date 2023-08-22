@@ -651,25 +651,25 @@
     ]
   },
   "packageFolders": {
-    "/home/it/.nuget/packages/": {}
+    "/Users/mbp15-2015/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
+      "projectUniqueName": "/Users/mbp15-2015/RiderProjects/CryptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
       "projectName": "CryptoBank.WebAPI",
-      "projectPath": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
-      "packagesPath": "/home/it/.nuget/packages/",
-      "outputPath": "/home/it/RiderProjects/CriptoBank/src/CryptoBank.WebAPI/obj/",
+      "projectPath": "/Users/mbp15-2015/RiderProjects/CryptoBank/src/CryptoBank.WebAPI/CryptoBank.WebAPI.csproj",
+      "packagesPath": "/Users/mbp15-2015/.nuget/packages/",
+      "outputPath": "/Users/mbp15-2015/RiderProjects/CryptoBank/src/CryptoBank.WebAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/it/.nuget/NuGet/NuGet.Config"
+        "/Users/mbp15-2015/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/home/it/dotnet/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -724,7 +724,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/it/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
       }
     }
   }
