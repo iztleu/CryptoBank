@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ccGJaeWUSuMQiDx6M6aKkNdBLrCqrLnegXa/5Bf707XrafAHajCFMfwVfZaTOTTGgg4FF5xqKu+apFdo5yDNmA==",
+  "dgSpecHash": "gzAW8sbWUSI6QIOdfYx8RpKFZVDXQJKg1eOOJ/w3EQGsse/thy2q+1ds/cqPuSaosY5O0BQFjdeT7xAFeBjCrQ==",
   "success": true,
-  "projectFilePath": "/Users/mbp15-2015/RiderProjects/CryptoBank/src/CriptoBank/CriptoBank.csproj",
+  "projectFilePath": "/home/it/RiderProjects/CriptoBank/src/CriptoBank/CriptoBank.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
