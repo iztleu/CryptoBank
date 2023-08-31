@@ -22,8 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Database\" />
-      <Folder Include="Features\" />
+      <Folder Include="Features\Auth\Models\" />
+      <Folder Include="Features\Auth\Requests\" />
     </ItemGroup>
 
     <ItemGroup>
