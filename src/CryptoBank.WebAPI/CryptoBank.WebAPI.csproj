@@ -22,11 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Auth\Models\" />
-      <Folder Include="Features\Auth\Requests\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="Microsoft.AspNetCore" />
       <Reference Include="Microsoft.AspNetCore.Antiforgery" />
       <Reference Include="Microsoft.AspNetCore.Authentication" />
