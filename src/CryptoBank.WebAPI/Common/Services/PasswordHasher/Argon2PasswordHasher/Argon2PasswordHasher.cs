@@ -10,7 +10,7 @@ public class Argon2PasswordHasher: IPasswordHasher
 {
     private readonly Argon2ConfigOptions _argon2ConfigOptions;
     
-    private byte[] GetSecureSalt()
+    private static byte[] GetSecureSalt()
     {
         return RandomNumberGenerator.GetBytes(32);
     }

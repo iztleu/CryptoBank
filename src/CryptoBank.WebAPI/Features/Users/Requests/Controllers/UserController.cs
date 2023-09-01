@@ -1,8 +1,7 @@
-using CryptoBank.WebAPI.Features.User.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CryptoBank.WebAPI.Features.User.Requests.Controllers;
+namespace CryptoBank.WebAPI.Features.Users.Requests.Controllers;
 
 [ApiController]
 public class UserController : Controller
@@ -15,7 +14,6 @@ public class UserController : Controller
     public async Task<RegisterUser.Response> RegisterUser([FromBody] RegisterUser.Request request,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(request, cancellationToken);
-        return response;
+        return await _mediator.Send(request, cancellationToken);
     }
 }

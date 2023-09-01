@@ -1,4 +1,4 @@
-using CryptoBank.WebAPI.Features.User.Domain;
+using CryptoBank.WebAPI.Features.Users.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CryptoBank.WebAPI.Database;

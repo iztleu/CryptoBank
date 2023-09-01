@@ -1,5 +1,5 @@
-using CryptoBank.WebAPI.Features.User.Domain;
+using CryptoBank.WebAPI.Features.Users.Domain;
 
-namespace CryptoBank.WebAPI.Features.User.Models;
+namespace CryptoBank.WebAPI.Features.Users.Models;
 
 public record UserModel(int Id, string Email, DateOnly? BirthDate, DateTimeOffset RegisteredAt, Role[] Roles);

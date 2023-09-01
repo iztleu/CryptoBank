@@ -1,4 +1,4 @@
-namespace CryptoBank.WebAPI.Features.User.Domain;
+namespace CryptoBank.WebAPI.Features.Users.Domain;
 
 public enum Role
 {

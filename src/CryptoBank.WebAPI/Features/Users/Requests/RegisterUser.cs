@@ -1,15 +1,16 @@
+using CryptoBank.WebAPI.Common.Services.PasswordHasher;
 using CryptoBank.WebAPI.Database;
-using CryptoBank.WebAPI.Features.User.Domain;
-using CryptoBank.WebAPI.Features.User.Options;
+using CryptoBank.WebAPI.Features.Users.Domain;
+using CryptoBank.WebAPI.Features.Users.Options;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CryptoBank.WebAPI.Features.User.Requests;
+namespace CryptoBank.WebAPI.Features.Users.Requests;
 
 public class RegisterUser
 {
-    public record Request(string Email, string Password, DateOnly? BirthDate) : IRequest<Response>;
+    public record Request(string Email, string Password, DateOnly BirthDate) : IRequest<Response>;
     
     public record Response(ulong Id);
     
@@ -50,23 +51,26 @@ public class RegisterUser
     {
         private readonly AppDbContext _dbContext;
         private readonly UsersOptions _usersOptions;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public RequestHandler(AppDbContext dbContext, UsersOptions usersOptions)
+        public RequestHandler(AppDbContext dbContext, UsersOptions usersOptions, IPasswordHasher passwordHasher)
         {
             _dbContext = dbContext;
             _usersOptions = usersOptions;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
         {
             var roles = new List<Role>{ Role.User };
-            
             if (request.Email == _usersOptions.AdministratorEmail)
             {
                 roles.Add(Role.Administrator);
             }
+            
+            var passwordHash = _passwordHasher.Hash(request.Password);
 
-            var user = new Domain.User(roles.ToArray());
+            var user = new User(DateTime.Now, request.BirthDate, request.Email, passwordHash, roles.ToArray());
             
             await _dbContext.Users.AddAsync(user, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
