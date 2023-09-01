@@ -2,6 +2,11 @@ namespace CryptoBank.WebAPI.Features.User.Domain;
 
 public class User
 {
+    public User(Role[] roles)
+    {
+        Roles = roles;
+    }
+    
     public ulong Id { get; set; }
     public DateTime RegisteredAt { get; set; }
     public DateOnly BirthDate { get; set; }

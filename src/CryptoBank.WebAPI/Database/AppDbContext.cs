@@ -17,6 +17,10 @@ public class AppDbContext : DbContext
     
     public virtual DbSet<User> Users { get; set; }
     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        MapUsers(modelBuilder);
+    }
     
     private void MapUsers(ModelBuilder modelBuilder)
     {
