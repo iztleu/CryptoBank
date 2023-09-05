@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using static CryptoBank.WebAPI.Features.Users.Errors.UserValidationErrors;
 
 namespace CryptoBank.WebAPI.Features.Users.Requests;
 
@@ -22,29 +23,28 @@ public class RegisterUser
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Password is empty")
+                .WithMessage(PasswordRequired)
                 .MinimumLength(7)
-                .WithMessage("Password too short");
+                .WithMessage(PasswordToShort);
             
             RuleFor(x => x.BirthDate)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Date is empty")
+                .WithMessage(BirthDateRequired)
                 .LessThan(DateOnly.FromDateTime(DateTime.Now))
-                .WithMessage("Date cannot be in the future or today");
+                .WithMessage(DateCannotBeInTheFutureOrToday);
             
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Email is empty")
+                .WithMessage(EmailRequired)
                 .EmailAddress()
-                .WithMessage("Email format is wrong")
+                .WithMessage(EmailFormatIsWrong)
                 .MustAsync(async (x, token) =>
                 {
                     var userExists = await dbContext.Users.AnyAsync(user => user.Email == x, token);
-
                     return !userExists;
-                }).WithMessage("Email exists or incorrect email");
+                }).WithMessage(EmailExists);
         }
     }
     

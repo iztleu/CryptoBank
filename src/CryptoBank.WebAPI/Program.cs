@@ -1,6 +1,7 @@
 using FluentValidation;
 using System.Reflection;
 using CryptoBank.WebAPI.Database;
+using CryptoBank.WebAPI.Errors.Extensions;
 using CryptoBank.WebAPI.Features.Users.Registration;
 using CryptoBank.WebAPI.Observability;
 using CryptoBank.WebAPI.Pipeline.Behaviors;
@@ -40,6 +41,9 @@ app.MapMetrics();
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.MapProblemDetailsComplete();
+
+
 app.Run();
 
 
