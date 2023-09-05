@@ -15,9 +15,11 @@ public class Argon2IdPasswordHasherTests
         {
             DegreeOfParallelism = 4,
             MemorySize = 4096,
-            Iterations = 3,
+            Iterations = 1,
+            PasswordHashSizeInBytes = 32,
+            SaltSizeInBytes = 16
         };
-
+        
         var hasher = new Argon2PasswordHasher(Options.Create(options));
 
         // Act
@@ -25,7 +27,7 @@ public class Argon2IdPasswordHasherTests
 
         // Assert
         passwordHash.Should().NotBeNullOrWhiteSpace();
-        var parts = passwordHash.Split('$');
+        var parts = passwordHash.Split('$', StringSplitOptions.RemoveEmptyEntries);
         parts[0].Should().Be("argon2id");
         parts[1].Should().Be($"m={options.MemorySize}");
         parts[2].Should().Be($"i={options.Iterations}");
@@ -42,7 +44,7 @@ public class Argon2IdPasswordHasherTests
             Salt = saltBytes,
             DegreeOfParallelism = options.DegreeOfParallelism,
             MemorySize = options.MemorySize,
-            Iterations = options.Iterations,
+            Iterations = options.Iterations
         };
         var expectedHashBytes = argon2Id.GetBytes(options.PasswordHashSizeInBytes);
         hashBytes.Should().BeEquivalentTo(expectedHashBytes);

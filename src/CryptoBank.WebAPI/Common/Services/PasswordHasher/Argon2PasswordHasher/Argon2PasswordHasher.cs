@@ -10,9 +10,9 @@ public class Argon2PasswordHasher: IPasswordHasher
 {
     private readonly Argon2ConfigOptions _argon2ConfigOptions;
     
-    private static byte[] GetSecureSalt()
+    private static byte[] GetSecureSalt(int size)
     {
-        return RandomNumberGenerator.GetBytes(32);
+        return RandomNumberGenerator.GetBytes(size);
     }
     
     public Argon2PasswordHasher(IOptions<Argon2ConfigOptions> options)
@@ -24,22 +24,35 @@ public class Argon2PasswordHasher: IPasswordHasher
     {
         using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password));
         
-        argon2.Salt = GetSecureSalt();
+        argon2.Salt = GetSecureSalt(_argon2ConfigOptions.SaltSizeInBytes);
         argon2.DegreeOfParallelism = _argon2ConfigOptions.DegreeOfParallelism; // four cores
         argon2.Iterations = _argon2ConfigOptions.Iterations;
         argon2.MemorySize = _argon2ConfigOptions.MemorySize; // 1 GB
 
-        var bytes = argon2.GetBytes(16);
+        var bytes = argon2.GetBytes(_argon2ConfigOptions.PasswordHashSizeInBytes);
         var hash = Convert.ToBase64String(bytes);
-
-        return
-            $"$argon2id$m={argon2.MemorySize},t={argon2.Iterations},p={argon2.DegreeOfParallelism}${Convert.ToBase64String(argon2.Salt)}${hash}";
+        var saltInBase64 = Convert.ToBase64String(argon2.Salt);
+        return $"$argon2id$m={argon2.MemorySize}$i={argon2.Iterations}$p={argon2.DegreeOfParallelism}${saltInBase64}${hash}";
     }
 
     public bool Verify(string hashedPassword, string providedPassword)
     {
 
-        var settings = GetSettingsFromHexArgon2(hashedPassword);
+        if (string.IsNullOrWhiteSpace(hashedPassword) || string.IsNullOrWhiteSpace(providedPassword))
+        {
+            return false;
+        }
+
+        SettingsFromHexArgon settings;
+        try
+        {
+            settings = GetSettingsFromHexArgon2(hashedPassword);
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+       
         
         using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(providedPassword));
 
@@ -48,29 +61,29 @@ public class Argon2PasswordHasher: IPasswordHasher
         argon2.Iterations = settings.Iterations;
         argon2.MemorySize = settings.MemorySize;
 
-        var bytes = argon2.GetBytes(16);
+        var passwordHashBytes = Convert.FromBase64String(settings.Hash);
+        
+        var bytes = argon2.GetBytes(passwordHashBytes.Length);
 
-        return Convert.ToBase64String(bytes) == settings.Hash;
+        return bytes.SequenceEqual(passwordHashBytes);
     }
     
     private SettingsFromHexArgon GetSettingsFromHexArgon2(string hex)
     {
-        var splitHex = hex.Split("$");
+        var splitHex = hex.Split("$", StringSplitOptions.RemoveEmptyEntries);
 
-        if (splitHex.Length != 5)
+        if (splitHex.Length != 6)
         {
             throw new ArgumentException("Invalid hash");
         }
         
-        var salt = splitHex[3];
-        var hash = splitHex[4];
+        var salt = splitHex[4];
+        var hash = splitHex[5];
         
-        var payload = splitHex[2];
-        var settings = payload.Split(",");
-        var memorySize = int.Parse(settings[0].Substring(2));
-        var iterations = int.Parse(settings[1].Substring(2));
-        var degreeOfParallelism = int.Parse(settings[2].Substring(2));
-
+        var memorySize = int.Parse(splitHex[1].Substring(2));
+        var iterations = int.Parse(splitHex[2].Substring(2));
+        var degreeOfParallelism = int.Parse(splitHex[3].Substring(2));
+        
         return new SettingsFromHexArgon
         {
             Salt = salt,
