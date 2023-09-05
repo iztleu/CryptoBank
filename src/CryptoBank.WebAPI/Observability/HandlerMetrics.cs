@@ -1,4 +1,3 @@
-using System.Diagnostics.Metrics;
 using Prometheus;
 
 namespace CryptoBank.WebAPI.Observability;

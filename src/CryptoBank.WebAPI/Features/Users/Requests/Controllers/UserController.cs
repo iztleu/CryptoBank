@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CryptoBank.WebAPI.Features.Users.Requests.Controllers;
 
 [ApiController]
+[Route("/users")]
 public class UserController : Controller
 {
     private readonly IMediator _mediator;

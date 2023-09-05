@@ -163,9 +163,11 @@
       <Reference Include="System.IO.Pipelines" />
       <Reference Include="System.Security.Cryptography.Xml" />
       <Reference Include="System.Threading.RateLimiting" />
-
-
     </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 
 
 

@@ -2,7 +2,12 @@ namespace CryptoBank.WebAPI.Features.Users.Domain;
 
 public class User
 {
-    public User(DateTime registeredAt, DateOnly birthDate, string email, string passwordHash, Role[] roles)
+    public User(long id)
+    {
+        Id = id;
+    }
+    
+    public User(DateTimeOffset registeredAt, DateOnly birthDate, string email, string passwordHash, Role[] roles)
     {
         RegisteredAt = registeredAt;
         BirthDate = birthDate;
@@ -11,8 +16,8 @@ public class User
         Roles = roles;
     }
     
-    public ulong Id { get; set; }
-    public DateTime RegisteredAt { get; set; }
+    public long Id { get; set; }
+    public DateTimeOffset RegisteredAt { get; set; }
     public DateOnly BirthDate { get; set; }
 
     public string Email { get; set; }

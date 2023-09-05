@@ -4,9 +4,10 @@ namespace CryptoBank.WebAPI.Features.Users.Registration;
 
 public static class UsersBuilderExtensions
 {
-    public static WebApplicationBuilder AddDeposits(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddUsers(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<UsersOptions>(builder.Configuration.GetSection("Features:Users"));
+        var section = builder.Configuration.GetSection("Features:Users");
+        builder.Services.Configure<UsersOptions>(section);
         return builder;
     }
 }
