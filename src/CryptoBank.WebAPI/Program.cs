@@ -4,6 +4,7 @@ using CryptoBank.WebAPI.Database;
 using CryptoBank.WebAPI.Errors.Extensions;
 using CryptoBank.WebAPI.Features.Users.Registration;
 using CryptoBank.WebAPI.Observability;
+using CryptoBank.WebAPI.Pipeline;
 using CryptoBank.WebAPI.Pipeline.Behaviors;
 using Microsoft.EntityFrameworkCore;
 using Prometheus;
@@ -25,6 +26,7 @@ builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<Dispatcher>();
 
 builder.AddUsers();
 builder.AddCommon();
