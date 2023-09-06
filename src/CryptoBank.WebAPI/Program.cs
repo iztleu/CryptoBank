@@ -61,3 +61,5 @@ void RunMigration(WebApplication webApplication)
             dbContext.Database.Migrate();
     }
 }
+
+public partial class Program {}

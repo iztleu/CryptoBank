@@ -1,6 +1,6 @@
 using CryptoBank.WebAPI.Common.Services.PasswordHasher;
 using CryptoBank.WebAPI.Database;
-using CryptoBank.WebAPI.Features.Users.Domain;
+using CryptoBank.WebAPI.Domain;
 using CryptoBank.WebAPI.Features.Users.Options;
 using FluentValidation;
 using MediatR;
@@ -71,7 +71,7 @@ public class RegisterUser
             
             var passwordHash = _passwordHasher.Hash(request.Password);
 
-            var user = new User(DateTimeOffset.Now, request.BirthDate, request.Email, passwordHash, roles.ToArray());
+            var user = new User(DateTime.UtcNow, request.BirthDate, request.Email, passwordHash, roles.ToArray());
             
             await _dbContext.Users.AddAsync(user, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);

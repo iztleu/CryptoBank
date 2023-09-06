@@ -1,4 +1,4 @@
-using CryptoBank.WebAPI.Features.Users.Domain;
+using CryptoBank.WebAPI.Domain;
 
 namespace CryptoBank.WebAPI.Features.Users.Models;
 

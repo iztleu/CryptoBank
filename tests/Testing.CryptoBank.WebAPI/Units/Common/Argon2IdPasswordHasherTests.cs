@@ -3,7 +3,7 @@ using FluentAssertions;
 using Konscious.Security.Cryptography;
 using Microsoft.Extensions.Options;
 
-namespace Testing.CryptoBank.WebAPI.Common;
+namespace Testing.CryptoBank.WebAPI.Units.Common;
 
 public class Argon2IdPasswordHasherTests
 {
