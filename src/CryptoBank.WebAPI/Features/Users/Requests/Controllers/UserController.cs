@@ -1,5 +1,5 @@
 using CryptoBank.WebAPI.Pipeline;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoBank.WebAPI.Features.Users.Requests.Controllers;
@@ -15,6 +15,7 @@ public class UserController : Controller
         _dispatcher = dispatcher;
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<RegisterUser.Response> RegisterUser([FromBody] RegisterUser.Request request,
         CancellationToken cancellationToken)

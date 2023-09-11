@@ -2,9 +2,9 @@
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Testing.CryptoBank.WebAPI.Integrations.Common.Harnesses;
-using Testing.CryptoBank.WebAPI.Integrations.Common.Harnesses.Base;
-using Testing.CryptoBank.WebAPI.Integrations.Common.Helpers;
+using Testing.CryptoBank.WebAPI.Integrations.Harnesses;
+using Testing.CryptoBank.WebAPI.Integrations.Harnesses.Base;
+using Testing.CryptoBank.WebAPI.Integrations.Helpers;
 
 namespace Testing.CryptoBank.WebAPI.Integrations.Fixtures;
 
@@ -32,12 +32,6 @@ public class TestFixture : IAsyncLifetime
         await HttpClient.Start(_factory, Create.CancellationToken());
 
         _ = _factory.Server;
-
-        AssertionOptions.AssertEquivalencyUsing(options => options
-            .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 100.Milliseconds()))
-            .WhenTypeIs<DateTime>()
-            .Using<DateTimeOffset>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 100.Milliseconds()))
-            .WhenTypeIs<DateTimeOffset>());
     }
 
     public async Task DisposeAsync()

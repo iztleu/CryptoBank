@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Testing.CryptoBank.WebAPI.Integrations.Common.Helpers;
+namespace Testing.CryptoBank.WebAPI.Integrations.Helpers;
 
 public static class Create
 {

@@ -2,9 +2,8 @@ namespace CryptoBank.WebAPI.Domain;
 
 public class User
 {
-    public User(long id)
+    public User()
     {
-        Id = id;
     }
     
     public User(DateTimeOffset registeredAt, DateOnly birthDate, string email, string passwordHash, Role[] roles)
@@ -23,5 +22,5 @@ public class User
     public string Email { get; set; }
     public string PasswordHash { get; set; }
 
-    public Role[] Roles { get; init; } 
+    public Role[] Roles { get; init; } = Array.Empty<Role>();
 }

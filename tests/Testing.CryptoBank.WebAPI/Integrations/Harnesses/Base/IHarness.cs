@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Testing.CryptoBank.WebAPI.Integrations.Common.Harnesses.Base;
+namespace Testing.CryptoBank.WebAPI.Integrations.Harnesses.Base;
 
 public interface IHarness<T> where T : class
 {

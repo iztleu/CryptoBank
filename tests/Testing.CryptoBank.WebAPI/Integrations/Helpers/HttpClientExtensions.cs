@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Testing.CryptoBank.WebAPI.Integrations.Common.Helpers;
+namespace Testing.CryptoBank.WebAPI.Integrations.Helpers;
 
 public static class HttpClientExtensions
 {

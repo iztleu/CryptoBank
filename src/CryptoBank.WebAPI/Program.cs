@@ -34,10 +34,10 @@ builder.AddCommon();
 var app = builder.Build();
 Telemetry.Init("WebApi");
 
-if (app.Environment.IsDevelopment())
-{
-    RunMigration(app);
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     RunMigration(app);
+// }
 
 app.MapMetrics();
 app.UseHttpsRedirection();

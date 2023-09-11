@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
 using Testcontainers.PostgreSql;
-using Testing.CryptoBank.WebAPI.Integrations.Common.Harnesses.Base;
+using Testing.CryptoBank.WebAPI.Integrations.Harnesses.Base;
 
-namespace Testing.CryptoBank.WebAPI.Integrations.Common.Harnesses;
+namespace Testing.CryptoBank.WebAPI.Integrations.Harnesses;
 
 public class DatabaseHarness<TProgram, TDbContext> : IHarness<TProgram>
     where TProgram : class
@@ -25,7 +25,7 @@ public class DatabaseHarness<TProgram, TDbContext> : IHarness<TProgram>
         {
             configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
             {
-                { "ConnectionStrings:AppDbContext", _postgres!.GetConnectionString() },
+                { "ConnectionStrings:DefaultConnection", _postgres!.GetConnectionString() },
             });
         });
     }

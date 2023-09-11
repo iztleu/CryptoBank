@@ -10,5 +10,5 @@ public static class UserValidationErrors
     public const string DateCannotBeInTheFutureOrToday = Prefix + "date_cannot_be_in_the_future_or_today";
     public const string EmailRequired = Prefix + "email_required";
     public const string EmailFormatIsWrong = Prefix + "email_format_is_wrong";
-    public const string EmailExists = Prefix + "email_exists";
+    public const string EmailAlreadyExists = Prefix + "email_already_exists";
 }

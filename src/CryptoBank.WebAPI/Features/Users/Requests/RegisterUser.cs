@@ -23,28 +23,28 @@ public class RegisterUser
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage(PasswordRequired)
+                .WithErrorCode(PasswordRequired)
                 .MinimumLength(7)
-                .WithMessage(PasswordToShort);
+                .WithErrorCode(PasswordToShort);
             
             RuleFor(x => x.BirthDate)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage(BirthDateRequired)
+                .WithErrorCode(BirthDateRequired)
                 .LessThan(DateOnly.FromDateTime(DateTime.Now))
-                .WithMessage(DateCannotBeInTheFutureOrToday);
+                .WithErrorCode(DateCannotBeInTheFutureOrToday);
             
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage(EmailRequired)
+                .WithErrorCode(EmailRequired)
                 .EmailAddress()
-                .WithMessage(EmailFormatIsWrong)
+                .WithErrorCode(EmailFormatIsWrong)
                 .MustAsync(async (x, token) =>
                 {
                     var userExists = await dbContext.Users.AnyAsync(user => user.Email == x, token);
                     return !userExists;
-                }).WithMessage(EmailExists);
+                }).WithErrorCode(EmailAlreadyExists);
         }
     }
     
