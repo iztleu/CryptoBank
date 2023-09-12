@@ -1,6 +1,4 @@
 ﻿using CryptoBank.WebAPI.Database;
-using FluentAssertions;
-using FluentAssertions.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Testing.CryptoBank.WebAPI.Integrations.Harnesses;
 using Testing.CryptoBank.WebAPI.Integrations.Harnesses.Base;
