@@ -1,5 +1,6 @@
 using FluentValidation;
 using System.Reflection;
+using CryptoBank.WebAPI.Common.Registration;
 using CryptoBank.WebAPI.Database;
 using CryptoBank.WebAPI.Errors.Extensions;
 using CryptoBank.WebAPI.Features.Auth.Registration;

@@ -6,11 +6,12 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+
 using static CryptoBank.WebAPI.Features.Users.Errors.UserValidationErrors;
 
 namespace CryptoBank.WebAPI.Features.Users.Requests;
 
-public class RegisterUser
+public class Register
 {
     public record Request(string Email, string Password, DateOnly BirthDate) : IRequest<Response>;
     
@@ -47,7 +48,7 @@ public class RegisterUser
                 }).WithErrorCode(EmailAlreadyExists);
         }
     }
-    
+
     public class RequestHandler : IRequestHandler<Request, Response>
     {
         private readonly AppDbContext _dbContext;

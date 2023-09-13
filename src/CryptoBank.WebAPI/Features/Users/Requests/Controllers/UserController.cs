@@ -17,7 +17,7 @@ public class UserController : Controller
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<RegisterUser.Response> RegisterUser([FromBody] RegisterUser.Request request,
+    public async Task<Register.Response> RegisterUser([FromBody] Register.Request request,
         CancellationToken cancellationToken)
     {
         return await _dispatcher.Dispatch(request, cancellationToken);

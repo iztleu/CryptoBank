@@ -122,7 +122,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     
     private AsyncServiceScope _scope;
 
-    private RegisterUser.RequestValidator? _validator;
+    private Register.RequestValidator? _validator;
 
     public RegisterValidatorTests(TestFixture fixture)
     {
@@ -133,7 +133,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     public async Task Should_validate_correct_request()
     {
         var result = await _validator.TestValidateAsync(
-            new RegisterUser.Request("test@test.com", "password", new DateOnly(2000, 01, 31)));
+            new Register.Request("test@test.com", "password", new DateOnly(2000, 01, 31)));
         result.ShouldNotHaveAnyValidationErrors();
     }
 
@@ -144,7 +144,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     public async Task Should_require_email(string email)
     {
         var result = await _validator.TestValidateAsync(
-            new RegisterUser.Request(email, "password", new DateOnly(2000, 01, 31)));
+            new Register.Request(email, "password", new DateOnly(2000, 01, 31)));
         result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode("users_validation_email_required");
     }
 
@@ -155,7 +155,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     public async Task Should_validate_email_format(string email)
     {
         var result = await _validator.TestValidateAsync(new
-            RegisterUser.Request(email, "password", new DateOnly(2000, 01, 31)));
+            Register.Request(email, "password", new DateOnly(2000, 01, 31)));
         result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode("users_validation_email_format_is_wrong");
     }
 
@@ -179,7 +179,7 @@ public class RegisterValidatorTests : IAsyncLifetime
         });
 
         var result = await _validator.TestValidateAsync(new
-            RegisterUser.Request(email, "password", new DateOnly(2000, 01, 31)));
+            Register.Request(email, "password", new DateOnly(2000, 01, 31)));
         result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode("users_validation_email_already_exists");
     }
 
@@ -190,7 +190,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     public async Task Should_require_password(string password)
     {
         var result = await _validator.TestValidateAsync(
-            new RegisterUser.Request("test@test.com", password, new DateOnly(2000, 01, 31)));
+            new Register.Request("test@test.com", password, new DateOnly(2000, 01, 31)));
         result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode("users_validation_password_required");
     }
 
@@ -201,7 +201,7 @@ public class RegisterValidatorTests : IAsyncLifetime
     public async Task Should_validate_password_length(string password)
     {
         var result = await _validator.TestValidateAsync(
-            new RegisterUser.Request("test@test.com", password, new DateOnly(2000, 01, 31)));
+            new Register.Request("test@test.com", password, new DateOnly(2000, 01, 31)));
         result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode("users_validation_password_to_short");
     }
 
@@ -212,7 +212,7 @@ public class RegisterValidatorTests : IAsyncLifetime
 
         _scope = _fixture.Factory.Services.CreateAsyncScope();
 
-        _validator = new RegisterUser.RequestValidator(_scope.ServiceProvider.GetRequiredService<AppDbContext>());
+        _validator = new Register.RequestValidator(_scope.ServiceProvider.GetRequiredService<AppDbContext>());
     }
 
     public async Task DisposeAsync()
