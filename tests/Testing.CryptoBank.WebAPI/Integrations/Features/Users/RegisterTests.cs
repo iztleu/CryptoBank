@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 using Testing.CryptoBank.WebAPI.Integrations.Fixtures;
 using Testing.CryptoBank.WebAPI.Integrations.Helpers;
 
-namespace Testing.CryptoBank.WebAPI.Integrations.Features.Users.Requests;
+namespace Testing.CryptoBank.WebAPI.Integrations.Features.Users;
 
 [Collection(UsersTestsCollection.Name)]
 public class RegisterTests : IAsyncLifetime
@@ -25,7 +25,7 @@ public class RegisterTests : IAsyncLifetime
     {
         _fixture = fixture;
     }
-
+    
     [Fact]
     public async Task Should_register_user()
     {

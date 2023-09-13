@@ -35,10 +35,10 @@ public class Argon2PasswordHasher: IPasswordHasher
         return $"$argon2id$m={argon2.MemorySize}$i={argon2.Iterations}$p={argon2.DegreeOfParallelism}${saltInBase64}${hash}";
     }
 
-    public bool Verify(string hashedPassword, string providedPassword)
+    public bool Verify(string hashedPassword, string password)
     {
 
-        if (string.IsNullOrWhiteSpace(hashedPassword) || string.IsNullOrWhiteSpace(providedPassword))
+        if (string.IsNullOrWhiteSpace(hashedPassword) || string.IsNullOrWhiteSpace(password))
         {
             return false;
         }
@@ -54,7 +54,7 @@ public class Argon2PasswordHasher: IPasswordHasher
         }
        
         
-        using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(providedPassword));
+        using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password));
 
         argon2.Salt = Convert.FromBase64String(settings.Salt);
         argon2.DegreeOfParallelism = settings.DegreeOfParallelism;
