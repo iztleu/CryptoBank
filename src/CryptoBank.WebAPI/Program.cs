@@ -6,24 +6,31 @@ using CryptoBank.WebAPI.Errors.Extensions;
 using CryptoBank.WebAPI.Features.Auth.Registration;
 using CryptoBank.WebAPI.Features.Users.Registration;
 using CryptoBank.WebAPI.Observability;
-using CryptoBank.WebAPI.Pipeline.Registration;
+using CryptoBank.WebAPI.Pipeline.Behaviors;
 using Microsoft.EntityFrameworkCore;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMediatR(cfg => cfg
+    .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
+    .AddOpenBehavior(typeof(ValidationBehavior<,>)));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+builder.AddCommon()
+    .AddUsers()
+    .AddAuth();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.AddBehaviors();
-builder.AddCommon();
-builder.AddUsers();
-builder.AddAuth();
+builder.Services.AddHttpContextAccessor();
+
+
 
 
 var app = builder.Build();

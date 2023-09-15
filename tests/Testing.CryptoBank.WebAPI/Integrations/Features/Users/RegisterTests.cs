@@ -33,7 +33,7 @@ public class RegisterTests : IAsyncLifetime
         var client = _fixture.HttpClient.CreateClient();
     
         // Act
-        (await client.PostAsJsonAsync("/users", new
+        (await client.PostAsJsonAsync("/users/register", new
             {
                 Email = "test@test.com",
                 Password = "qwerty123456A!",
@@ -60,7 +60,7 @@ public class RegisterTests : IAsyncLifetime
         var client = _fixture.HttpClient.CreateClient();
 
         // Act
-        (await client.PostAsJsonAsync("/users", new
+        (await client.PostAsJsonAsync("/users/register", new
             {
                 Email = "test@test.com",
                 Password = "qwerty123456A!",
@@ -85,7 +85,7 @@ public class RegisterTests : IAsyncLifetime
         var option = _fixture.Factory.Services.GetRequiredService<IOptions<UsersOptions>>();
 
         // Act
-        (await client.PostAsJsonAsync("/users", new
+        (await client.PostAsJsonAsync("/users/register", new
             {
                 Email = option.Value.AdministratorEmail,
                 Password = "qwerty123456A!",

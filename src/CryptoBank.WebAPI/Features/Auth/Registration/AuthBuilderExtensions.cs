@@ -11,7 +11,7 @@ public static class AuthBuilderExtensions
     {
         var section = builder.Configuration.GetRequiredSection($"Features:{AuthOptions.SectionName}");
         builder.Services.Configure<AuthOptions>(section);
-        builder.Services.AddTransient<TokenService>();
+        builder.Services.AddScoped<TokenService>();
         
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
         {

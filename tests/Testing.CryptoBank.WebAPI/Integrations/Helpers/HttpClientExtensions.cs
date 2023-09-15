@@ -18,4 +18,18 @@ public static class HttpClientExtensions
 
         return (response, httpResponse);
     }
+    
+    public static async Task<(TResponse?, HttpResponseMessage httpRespnse)> GetFromJsonAsync<TResponse>(this HttpClient client, string url, 
+        CancellationToken cancellationToken)
+    {
+        var httpResponse = await client.GetAsync(url, cancellationToken);
+
+        var responseString = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+        var response = JsonSerializer.Deserialize<TResponse>(responseString, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        });
+
+        return (response, httpResponse);
+    }
 }

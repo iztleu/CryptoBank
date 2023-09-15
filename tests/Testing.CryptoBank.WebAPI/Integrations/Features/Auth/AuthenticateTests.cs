@@ -62,16 +62,16 @@ public class AuthenticateTests: IAsyncLifetime
          httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
          responsePost.Should().NotBeNull();
          
-         responsePost!.Token.AccessToken.Should().NotBeNullOrEmpty();
+         responsePost!.AccessToken.Should().NotBeNullOrEmpty();
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var jwtOptions = _scope.ServiceProvider.GetRequiredService<IOptions<AuthOptions>>().Value.Jwt;
         var key = jwtOptions.SigningKey;
         
-        tokenHandler.ValidateToken(responsePost.Token.AccessToken, new TokenValidationParameters
+        tokenHandler.ValidateToken(responsePost.AccessToken, new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(key)),
             ValidateIssuer = true,
             ValidIssuer = jwtOptions.Issuer,
             ValidateAudience = true,

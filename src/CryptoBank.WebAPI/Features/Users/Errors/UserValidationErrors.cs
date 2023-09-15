@@ -11,4 +11,5 @@ public static class UserValidationErrors
     public const string EmailRequired = Prefix + "email_required";
     public const string EmailFormatIsWrong = Prefix + "email_format_is_wrong";
     public const string EmailAlreadyExists = Prefix + "email_already_exists";
+    public const string UserNotFound = Prefix + "user_not_found";
 }

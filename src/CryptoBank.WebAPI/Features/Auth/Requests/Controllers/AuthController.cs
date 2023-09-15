@@ -1,4 +1,6 @@
+using CryptoBank.WebAPI.Features.Auth.Models;
 using CryptoBank.WebAPI.Pipeline;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,16 +10,20 @@ namespace CryptoBank.WebAPI.Features.Auth.Requests.Controllers;
 [Route("/auth")]
 public class AuthController : Controller
 {
-    private readonly Dispatcher _dispatcher;
+    private readonly IMediator _mediator;
 
-    public AuthController(Dispatcher dispatcher)
+    public AuthController(IMediator mediator)
     {
-        _dispatcher = dispatcher;
+        _mediator = mediator;
     }
+
 
     [AllowAnonymous]
     [HttpPost("authenticate")]
-    public async Task<Authenticate.Response>
-        Authenticate(Authenticate.Request request, CancellationToken cancellationToken) =>
-        await _dispatcher.Dispatch(request, cancellationToken);
+    public async Task<AccessTokenModel> Authenticate(Authenticate.Request request,
+        CancellationToken cancellationToken)
+    {
+        return (await _mediator.Send(request, cancellationToken)).Token;
+    }
+       
 }

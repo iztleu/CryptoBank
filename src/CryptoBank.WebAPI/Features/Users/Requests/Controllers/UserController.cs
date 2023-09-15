@@ -1,4 +1,5 @@
-using CryptoBank.WebAPI.Pipeline;
+using CryptoBank.WebAPI.Features.Users.Models;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +9,25 @@ namespace CryptoBank.WebAPI.Features.Users.Requests.Controllers;
 [Route("/users")]
 public class UserController : Controller
 {
-    private readonly Dispatcher _dispatcher;
+    private readonly IMediator _mediator;
 
-    public UserController(Dispatcher dispatcher)
+    public UserController(IMediator mediator)
     {
-        _dispatcher = dispatcher;
+        _mediator = mediator;
     }
 
     [AllowAnonymous]
-    [HttpPost]
-    public async Task<Register.Response> RegisterUser([FromBody] Register.Request request,
+    [HttpPost("register")]
+    public async Task<Register.Response> Register([FromBody] Register.Request request,
         CancellationToken cancellationToken)
     {
-        return await _dispatcher.Dispatch(request, cancellationToken);
+        return await _mediator.Send(request, cancellationToken);
+    }
+    
+    [Authorize]
+    [HttpGet("profile")]
+    public async Task<UserModel> GetProfile(CancellationToken cancellationToken)
+    {
+        return (await _mediator.Send(new GetProfile.Request(), cancellationToken)).Profile;
     }
 }

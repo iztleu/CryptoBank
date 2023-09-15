@@ -17,13 +17,20 @@ public class TokenService
         _jwtOptions = options.Value.Jwt;
     }
 
+    public string CreateAccessToken(User user)
+    {
+        return CreateAccessToken(user.Id, user.Email, user.Roles);
+    }
+    
     public string CreateAccessToken(long userId, string email, Role[] roles)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SigningKey));
+        var key = new SymmetricSecurityKey(Convert.FromBase64String(_jwtOptions.SigningKey));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var utcNow = DateTime.UtcNow;
 
+        
+        
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = _jwtOptions.Issuer,
