@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-using System.Text;
 using CryptoBank.WebAPI.Common.Services.PasswordHasher;
 using CryptoBank.WebAPI.Domain;
 using CryptoBank.WebAPI.Features.Auth.Options;
@@ -21,18 +20,18 @@ namespace Testing.CryptoBank.WebAPI.Integrations.Features.Auth;
 [Collection(AuthTestsCollection.Name)]
 public class AuthenticateTests: IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestAuthFixture _userFixture;
 
     private AsyncServiceScope _scope;
 
-    public AuthenticateTests(TestFixture fixture)
+    public AuthenticateTests(TestAuthFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
 
     private async Task<(AccessTokenContract?, HttpResponseMessage)> Act(AuthenticateRequestContract request)
     {
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
         return await client.PostAsJsonAsync<AccessTokenContract>("/auth/authenticate", request, Create.CancellationToken());
     }
    
@@ -50,7 +49,7 @@ public class AuthenticateTests: IAsyncLifetime
             RegisteredAt = DateTime.UtcNow,
         };
         
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             x.Users.Add(user);
             await x.SaveChangesAsync();
@@ -102,14 +101,14 @@ public class AuthenticateTests: IAsyncLifetime
             RegisteredAt = DateTime.UtcNow,
         };
         
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             x.Users.Add(user);
             await x.SaveChangesAsync();
         });
         
         
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
         
         // Act
         var (responsePost, httpResponse) = await client.PostAsJsonAsync<ValidationProblemDetailsContract>("/auth/authenticate", new
@@ -124,13 +123,15 @@ public class AuthenticateTests: IAsyncLifetime
         responsePost!.ShouldContain(string.Empty, "Wrong email or password", "auth_validation_wrong_credentials");
     }
 
+    
+    
     public record AuthenticateRequestContract(string Email, string Password);
     
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
     }
 
     public async Task DisposeAsync()

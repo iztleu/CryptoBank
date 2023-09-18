@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using CryptoBank.WebAPI.Common.Services.PasswordHasher;
@@ -9,27 +10,29 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Testing.CryptoBank.WebAPI.Integrations.Features.Users.Contracts;
 using Testing.CryptoBank.WebAPI.Integrations.Fixtures;
 using Testing.CryptoBank.WebAPI.Integrations.Helpers;
+
 
 namespace Testing.CryptoBank.WebAPI.Integrations.Features.Users;
 
 [Collection(UsersTestsCollection.Name)]
 public class UpdateRolesTest : IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestUserFixture _userFixture;
     private AsyncServiceScope _scope;
     
-    public UpdateRolesTest(TestFixture fixture)
+    public UpdateRolesTest(TestUserFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
 
     [Fact]
     public async Task Should_update_roles()
     {
         // Arrange
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
         var passwordHasher = _scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var tokenServer = _scope.ServiceProvider.GetRequiredService<TokenService>();
 
@@ -39,7 +42,7 @@ public class UpdateRolesTest : IAsyncLifetime
         var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "user@test.com",
             passwordHasher.Hash("qwerty123456A!"));
         
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             await x.Users.AddRangeAsync(adminUser, user);
             await x.SaveChangesAsync();
@@ -56,18 +59,48 @@ public class UpdateRolesTest : IAsyncLifetime
         })).EnsureSuccessStatusCode();
         
         // Assert
-        user = await _fixture.Database.Execute(async x =>
+        user = await _userFixture.Database.Execute(async x =>
             await x.Users.SingleOrDefaultAsync(u => u.Id == user.Id));
 
         user.Should().NotBeNull();
         user!.Roles.Should().Contain(new List<Role>{Role.Administrator});
     }
 
+    [Fact]
+    public async Task Should_not_authentificate_authenticate_user_with_wrong_role()
+    {
+        var client = _userFixture.HttpClient.CreateClient();
+        var passwordHasher = _scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+        var tokenServer = _scope.ServiceProvider.GetRequiredService<TokenService>();
+
+        var notAdminUser = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "test@test.com",
+            passwordHasher.Hash("qwerty123456A!"), new []{ Role.Analyst });
+
+        var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "user@test.com",
+            passwordHasher.Hash("qwerty123456A!"));
+        
+        await _userFixture.Database.Execute(async x =>
+        {
+            await x.Users.AddRangeAsync(notAdminUser, user);
+            await x.SaveChangesAsync();
+        });
+
+        var token = tokenServer.CreateAccessToken(notAdminUser);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    
+        // Act
+        var httpResponse = await client.PutAsJsonAsync("/users/roles", 
+        new UpdateRolesContract(user.Id, new []{ RoleContract.Administrator}), Create.CancellationToken());
+        
+        // Assert
+        httpResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
     }
 
     public async Task DisposeAsync()
@@ -79,13 +112,13 @@ public class UpdateRolesTest : IAsyncLifetime
 [Collection(UsersTestsCollection.Name)]
 public class UpdateRolesValidatorTest : IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestUserFixture _userFixture;
     private AsyncServiceScope _scope;
     private UpdateRoles.RequestValidator? _validator;
     
-    public UpdateRolesValidatorTest(TestFixture fixture)
+    public UpdateRolesValidatorTest(TestUserFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
     
     [Fact]
@@ -93,7 +126,7 @@ public class UpdateRolesValidatorTest : IAsyncLifetime
     {
         var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "user@test.com","qwerty123456A!");
         
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             await x.Users.AddRangeAsync(user);
             await x.SaveChangesAsync();
@@ -110,7 +143,7 @@ public class UpdateRolesValidatorTest : IAsyncLifetime
     {
         var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "user@test.com","qwerty123456A!");
         
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             await x.Users.AddRangeAsync(user);
             await x.SaveChangesAsync();
@@ -137,9 +170,9 @@ public class UpdateRolesValidatorTest : IAsyncLifetime
     
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
 
         _validator = new UpdateRoles.RequestValidator(_scope.ServiceProvider.GetRequiredService<AppDbContext>());
     }

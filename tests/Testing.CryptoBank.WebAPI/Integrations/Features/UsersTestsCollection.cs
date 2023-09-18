@@ -4,7 +4,7 @@ using Testing.CryptoBank.WebAPI.Integrations.Fixtures;
 namespace Testing.CryptoBank.WebAPI.Integrations.Features;
 
 [CollectionDefinition(Name)]
-public class UsersTestsCollection : ICollectionFixture<TestFixture>
+public class UsersTestsCollection : ICollectionFixture<TestUserFixture>
 {
     public const string Name = nameof(UsersTestsCollection);
 

@@ -17,20 +17,20 @@ namespace Testing.CryptoBank.WebAPI.Integrations.Features.Users;
 [Collection(UsersTestsCollection.Name)]
 public class RegisterTests : IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestUserFixture _userFixture;
 
     private AsyncServiceScope _scope;
 
-    public RegisterTests(TestFixture fixture)
+    public RegisterTests(TestUserFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
     
     [Fact]
     public async Task Should_register_user()
     {
         // Arrange
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
     
         // Act
         (await client.PostAsJsonAsync("/users/register", new
@@ -42,7 +42,7 @@ public class RegisterTests : IAsyncLifetime
             .EnsureSuccessStatusCode();
 
         // Assert
-        var user = await _fixture.Database.Execute(async x =>
+        var user = await _userFixture.Database.Execute(async x =>
             await x.Users.SingleOrDefaultAsync(u => u.Email == "test@test.com"));
 
         user.Should().NotBeNull();
@@ -57,7 +57,7 @@ public class RegisterTests : IAsyncLifetime
     public async Task Should_register_user_and_set_user_role()
     {
         // Arrange
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
 
         // Act
         (await client.PostAsJsonAsync("/users/register", new
@@ -69,7 +69,7 @@ public class RegisterTests : IAsyncLifetime
             .EnsureSuccessStatusCode();
 
         // Assert
-        var user = await _fixture.Database.Execute(async x =>
+        var user = await _userFixture.Database.Execute(async x =>
             await x.Users.SingleOrDefaultAsync(u => u.Email == "test@test.com"));
 
         user.Should().NotBeNull();
@@ -81,8 +81,8 @@ public class RegisterTests : IAsyncLifetime
     public async Task Should_register_user_and_set_admin_roles()
     {
         // Arrange
-        var client = _fixture.HttpClient.CreateClient();
-        var option = _fixture.Factory.Services.GetRequiredService<IOptions<UsersOptions>>();
+        var client = _userFixture.HttpClient.CreateClient();
+        var option = _userFixture.Factory.Services.GetRequiredService<IOptions<UsersOptions>>();
 
         // Act
         (await client.PostAsJsonAsync("/users/register", new
@@ -94,7 +94,7 @@ public class RegisterTests : IAsyncLifetime
             .EnsureSuccessStatusCode();
 
         // Assert
-        var user = await _fixture.Database.Execute(async x =>
+        var user = await _userFixture.Database.Execute(async x =>
             await x.Users.SingleOrDefaultAsync(u => u.Email == option.Value.AdministratorEmail));
 
         user.Should().NotBeNull();
@@ -104,9 +104,9 @@ public class RegisterTests : IAsyncLifetime
     
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
     }
 
     public async Task DisposeAsync()
@@ -118,15 +118,15 @@ public class RegisterTests : IAsyncLifetime
 [Collection(UsersTestsCollection.Name)]
 public class RegisterValidatorTests : IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestUserFixture _userFixture;
     
     private AsyncServiceScope _scope;
 
     private Register.RequestValidator? _validator;
 
-    public RegisterValidatorTests(TestFixture fixture)
+    public RegisterValidatorTests(TestUserFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
 
     [Fact]
@@ -172,7 +172,7 @@ public class RegisterValidatorTests : IAsyncLifetime
             BirthDate = new DateOnly(2000, 01, 31)
         };
 
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             x.Users.Add(existingUser);
             await x.SaveChangesAsync();
@@ -208,9 +208,9 @@ public class RegisterValidatorTests : IAsyncLifetime
     
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
 
         _validator = new Register.RequestValidator(_scope.ServiceProvider.GetRequiredService<AppDbContext>());
     }

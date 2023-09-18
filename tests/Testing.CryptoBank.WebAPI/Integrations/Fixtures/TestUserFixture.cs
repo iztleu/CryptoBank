@@ -6,11 +6,11 @@ using Testing.CryptoBank.WebAPI.Integrations.Helpers;
 
 namespace Testing.CryptoBank.WebAPI.Integrations.Fixtures;
 
-public class TestFixture : IAsyncLifetime
+public class TestUserFixture : IAsyncLifetime
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public TestFixture()
+    public TestUserFixture()
     {
         Database = new();
         HttpClient = new();

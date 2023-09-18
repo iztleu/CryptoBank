@@ -13,26 +13,26 @@ namespace Testing.CryptoBank.WebAPI.Integrations.Features.Users;
 [Collection(UsersTestsCollection.Name)]
 public class GetProfileTest: IAsyncLifetime
 {
-    private readonly TestFixture _fixture;
+    private readonly TestUserFixture _userFixture;
     private AsyncServiceScope _scope;
 
-    public GetProfileTest(TestFixture fixture)
+    public GetProfileTest(TestUserFixture userFixture)
     {
-        _fixture = fixture;
+        _userFixture = userFixture;
     }
 
     [Fact]
     public async Task Should_get_profile()
     {
         // Arrange
-        var client = _fixture.HttpClient.CreateClient();
+        var client = _userFixture.HttpClient.CreateClient();
         var passwordHasher = _scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var tokenServer = _scope.ServiceProvider.GetRequiredService<TokenService>();
 
         var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "test@test.com",
             passwordHasher.Hash("qwerty123456A!"));
 
-        await _fixture.Database.Execute(async x =>
+        await _userFixture.Database.Execute(async x =>
         {
             await x.Users.AddAsync(user);
             await x.SaveChangesAsync();
@@ -56,9 +56,9 @@ public class GetProfileTest: IAsyncLifetime
     
     public async Task InitializeAsync()
     {
-        await _fixture.Database.Clear(Create.CancellationToken());
+        await _userFixture.Database.Clear(Create.CancellationToken());
 
-        _scope = _fixture.Factory.Services.CreateAsyncScope();
+        _scope = _userFixture.Factory.Services.CreateAsyncScope();
     }
 
     public async Task DisposeAsync()

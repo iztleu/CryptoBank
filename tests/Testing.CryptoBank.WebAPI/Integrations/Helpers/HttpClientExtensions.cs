@@ -32,4 +32,19 @@ public static class HttpClientExtensions
 
         return (response, httpResponse);
     }
+    
+    //PutAsJsonAsync
+    public static async Task<(TResponse?, HttpResponseMessage httpRespnse)> PutFromJsonAsync<TResponse>(this HttpClient client, string url, 
+        object? body, CancellationToken cancellationToken)
+    {
+        var httpResponse = await client.PutAsJsonAsync(url, body,cancellationToken);
+
+        var responseString = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+        var response = JsonSerializer.Deserialize<TResponse>(responseString, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        });
+
+        return (response, httpResponse);
+    }
 }

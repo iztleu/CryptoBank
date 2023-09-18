@@ -3,7 +3,7 @@
 namespace Testing.CryptoBank.WebAPI.Integrations.Features;
 
 [CollectionDefinition(Name)]
-public class AuthTestsCollection : ICollectionFixture<TestFixture>
+public class AuthTestsCollection : ICollectionFixture<TestUserFixture>
 {
     public const string Name = nameof(AuthTestsCollection);
 
