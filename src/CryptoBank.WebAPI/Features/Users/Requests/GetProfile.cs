@@ -30,15 +30,13 @@ public class GetProfile
         public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
         {
             var userId = _currentAuthInfoSource.GetUserId();
-            var users = await _dbContext.Users
+            var userModel = await _dbContext.Users
                 .Where(user => user.Id == userId)
+                .Select(user => new UserModel(user.Id, user.Email, user.BirthDate, user.RegisteredAt, user.Roles))
                 .SingleOrDefaultAsync(cancellationToken);
             
-            if (users is null)
+            if (userModel is null)
                 throw new InternalErrorException(UserNotFound);
-            
-            var roles = users.Roles.Select(role => role.ToString()).ToArray();
-            var userModel = new UserModel(users.Id, users.Email, users.BirthDate, users.RegisteredAt, roles);
 
             return new Response(userModel);
         }

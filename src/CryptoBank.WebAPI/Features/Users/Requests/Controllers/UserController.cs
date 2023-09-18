@@ -1,3 +1,4 @@
+using CryptoBank.WebAPI.Domain;
 using CryptoBank.WebAPI.Features.Users.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,4 +31,17 @@ public class UserController : Controller
     {
         return (await _mediator.Send(new GetProfile.Request(), cancellationToken)).Profile;
     }
+    
+    
+    [HttpPut("roles")]
+    [Authorize(Roles = nameof(Role.Administrator))]
+    public async Task<IActionResult> UpdateRoles(
+        [FromBody] UpdateRoles.Request request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(request, cancellationToken);
+
+        return new NoContentResult();
+    }
+    
 }

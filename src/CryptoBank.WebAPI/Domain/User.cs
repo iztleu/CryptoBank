@@ -5,14 +5,18 @@ public class User
     public User()
     {
     }
+    public User(long Id)
+    {
+        this.Id = Id;
+    }
     
-    public User(DateTimeOffset registeredAt, DateOnly birthDate, string email, string passwordHash, Role[] roles)
+    public User(DateTimeOffset registeredAt, DateOnly birthDate, string email, string passwordHash, Role[]? roles = null)
     {
         RegisteredAt = registeredAt;
         BirthDate = birthDate;
         Email = email;
         PasswordHash = passwordHash;
-        Roles = roles;
+        Roles = roles ?? new []{Role.User};
     }
     
     public long Id { get; set; }
@@ -22,5 +26,5 @@ public class User
     public string Email { get; set; }
     public string PasswordHash { get; set; }
 
-    public Role[] Roles { get; init; } = Array.Empty<Role>();
+    public Role[] Roles { get; init; }
 }

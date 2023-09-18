@@ -28,31 +28,26 @@ public class GetProfileTest: IAsyncLifetime
         var client = _fixture.HttpClient.CreateClient();
         var passwordHasher = _scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var tokenServer = _scope.ServiceProvider.GetRequiredService<TokenService>();
-        
-        var user = new User
-        {
-            Email = "test@test.com",
-            PasswordHash = passwordHasher.Hash("qwerty123456A!"),
-            BirthDate = new DateOnly(2000, 01, 31),
-            RegisteredAt = DateTime.UtcNow,
-        };
-        
+
+        var user = new User(DateTimeOffset.UtcNow, new DateOnly(2000, 01, 31), "test@test.com",
+            passwordHasher.Hash("qwerty123456A!"));
+
         await _fixture.Database.Execute(async x =>
         {
             await x.Users.AddAsync(user);
             await x.SaveChangesAsync();
         });
-        
+
         var token = tokenServer.CreateAccessToken(user);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        
+
         // Act
-        var(response, httpResponse) =  await client.GetFromJsonAsync<ProfileContract>("/users/profile", Create.CancellationToken());
-        
+        var (response, httpResponse) =
+            await client.GetFromJsonAsync<ProfileContract>("/users/profile", Create.CancellationToken());
+
         // Assert
-        
         httpResponse.EnsureSuccessStatusCode();
-        
+
         response.Should().NotBeNull();
         response!.Email.Should().Be(user.Email);
         response.BirthDate.Should().Be(user.BirthDate);
